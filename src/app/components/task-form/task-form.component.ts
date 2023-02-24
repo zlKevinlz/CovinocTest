@@ -1,6 +1,7 @@
 import { TaskService } from 'src/app/services/task.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-task-form',
@@ -14,10 +15,14 @@ export class TaskFormComponent implements OnInit {
   @Output()
   emitAction = new EventEmitter<string>();
 
+  private _unsubscribeAll: Subject<any>;
+
   constructor(
     private _formbuilder: FormBuilder,
     private _taskService: TaskService
   ) {
+    this._unsubscribeAll = new Subject();
+
     this.taskForm = this._formbuilder.group({
       title: new FormControl('', Validators.required),
       state: new FormControl(false)
@@ -29,11 +34,16 @@ export class TaskFormComponent implements OnInit {
 
   //agregar validacion si response es de tipo task
   addTask(){
-    this._taskService.addTask(this.taskForm.value).subscribe( (response: any) => {
+    this._taskService.addTask(this.taskForm.value).pipe(takeUntil(this._unsubscribeAll)).subscribe( (response: any) => {
       console.log(response)
       this.emitAction.emit('Tarea creada exitosamente')
       this.taskForm.reset();
     })
+  }
+
+  ngOnDestroy() {
+    this._unsubscribeAll.next(true);
+    this._unsubscribeAll.complete();
   }
 
 }

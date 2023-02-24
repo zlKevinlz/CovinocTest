@@ -1,7 +1,7 @@
 .container
     height: calc(100vh - 265px)
 
-    .titie_search
+    .title_search
         color: #4B9F8E
         padding-top: 15px
         display: flex
@@ -21,14 +21,22 @@
                 right: 28px
                 color: #01CEB6
 
-    thead
-        color: #4B9F8E
+    .table_container
+        width: 100%
+        overflow: auto
 
-    th, td
-        text-align: center
+        thead
+            color: #4B9F8E
 
-    .icon_delete
-        color: red
+        th, td
+            text-align: center
+
+        .checkbox
+            cursor: pointer
+
+        .icon_delete
+            color: red
+            cursor: pointer
 
     .logo_github_container
         position: absolute
@@ -37,3 +45,34 @@
 
         .logo_github
             width: 100px
+
+    .pagination_content
+        display: flex
+        justify-content: center
+
+@media (max-width: 992px)
+    .container
+        max-width: 780px
+
+@media (max-width: 800px)
+    .container
+        max-width: 700px
+
+@media (max-width: 670px)
+    .title_search
+        display: grid !important
+        row-gap: 10px
+
+    .form-group
+        input
+            width: 100% !important
+
+    .logo_github_container
+        position: absolute
+        top: 8px
+        right: 8px
+
+        .logo_github
+            width: 70px !important
+
+    

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from 'src/app/pipes/filter.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -13,7 +14,8 @@ import { FilterPipe } from 'src/app/pipes/filter.pipe';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class TasksModule { }
