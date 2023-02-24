@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject, takeUntil } from 'rxjs';
 import { TaskService } from 'src/app/services/task.service';
 import { TaskInterface } from '../../models/task-interface';
@@ -21,7 +22,8 @@ export class TasksComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
 
   constructor(
-    private _taskService: TaskService
+    private _taskService: TaskService,
+    private spinner: NgxSpinnerService
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -31,8 +33,10 @@ export class TasksComponent implements OnInit {
   }
 
   getTasks(): void {
+    this.spinner.show();
     this._taskService.getTasks().pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
       this.tasks = response;
+      this.spinner.hide();
     });
   }
 
