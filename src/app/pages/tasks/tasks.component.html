@@ -1,0 +1,80 @@
+<app-header></app-header>
+
+<app-task-form (emitAction)="receiveAction($event)"></app-task-form>
+
+<div class="container">
+
+    <div class="titie_search">
+        <h2><span class="material-symbols-sharp">
+            checklist_rtl
+            </span>
+             Lista de tareas</h2>
+
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" name="filterTask" [(ngModel)]="filterTask"
+                    id="exampleFormControlInput1" placeholder="Buscar...">
+                <span class="icon_search material-symbols-sharp">
+                    search
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Mis tareas</th>
+                <th scope="col">Completada</th>
+                <th scope="col">Borrar</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let task of tasks | filter:filterTask"
+                data-bs-toggle="modal" data-bs-target="#modalUser"
+                style="cursor: pointer;">
+                <td class="username">{{task.id}}</td>
+                <td class="username">{{task.title}}</td>
+                <td class="username">
+                    <input type="checkbox" class="checkbox"
+                        [checked]="task.state" id="exampleCheck1">
+                </td>
+                <td class="username">
+                    <span class="icon_delete material-symbols-sharp" (click)="this.deleteTask(task)">
+                        delete
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination  justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="alert alert-success" role="alert" *ngIf="success">
+        {{success}}
+      </div>
+
+    <a class="logo_github_container" target="_blank"
+        href="https://github.com/zlKevinlz">
+        <img class="logo_github" src="../../../assets/logo_github.png" />
+    </a>
+</div>

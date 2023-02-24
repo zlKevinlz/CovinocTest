@@ -1,0 +1,32 @@
+<div class="content_form">
+    <div class="container">
+        <h3>
+            <span class="material-symbols-sharp">
+                add
+            </span>
+            Nueva tarea
+        </h3>
+
+        <form [formGroup]="taskForm">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Titulo</label>
+                <input type="email" class="input_title form-control" id="exampleInputEmail1"
+                formControlName="title" placeholder="Ingrese titulo...">
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input"
+                id="exampleCheck1" formControlName="state">
+                <label class="form-check-label" for="exampleCheck1">Tarea
+                    completada</label>
+            </div>
+
+            <button type="button" class="btn btn-primary" [disabled]="!taskForm.valid" (click)="addTask()">
+                <span class="material-symbols-sharp">
+                    add
+                </span>
+                Guardar Tarea</button>
+
+        </form>
+    </div>
+</div>
