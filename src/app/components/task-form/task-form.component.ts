@@ -33,11 +33,12 @@ export class TaskFormComponent implements OnInit {
   }
 
   //agregar validacion si response es de tipo task
-  addTask(){
+  addTask(): void{
     this._taskService.addTask(this.taskForm.value).pipe(takeUntil(this._unsubscribeAll)).subscribe( (response: any) => {
-      console.log(response)
       this.emitAction.emit('Tarea creada exitosamente')
       this.taskForm.reset();
+    }, (error) => {
+      this.emitAction.emit('Ha ocurrido un error')
     })
   }
 

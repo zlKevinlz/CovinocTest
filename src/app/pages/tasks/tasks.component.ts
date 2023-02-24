@@ -13,9 +13,9 @@ export class TasksComponent implements OnInit {
 
   tasks: TaskInterface[] = [];
 
-  filterTask = '';
+  filterTask: string = '';
 
-  success: string = '';
+  message: string = '';
 
   pageActual: number = 1;
 
@@ -37,49 +37,59 @@ export class TasksComponent implements OnInit {
     this._taskService.getTasks().pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
       this.tasks = response;
       this.spinner.hide();
+    }, (error) => {
+      this.message = 'Ha ocurrido un error';
+      this.clearAlert();
     });
   }
 
   editTask(task: TaskInterface): void {
     this._taskService.editTask(task).pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
-      this.success = `Tarea ${task.id} actualizada exitosamente`;
+      this.message = `Tarea ${task.id} actualizada exitosamente`;
       this.getTasks();
 
-      setTimeout(() => {
-        this.success = '';
-      }, 3000)
+      this.clearAlert();
+    }, (error) => {
+      this.message = 'Ha ocurrido un error';
+      this.clearAlert();
     });
   }
 
   deleteTask(task: TaskInterface): void {
     this._taskService.deleteTask(task.id).pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
       if (response != 'Not found') {
-        this.success = 'Tarea eliminada exitosamente';
+        this.message = 'Tarea eliminada exitosamente';
         this.getTasks();
 
-        setTimeout(() => {
-          this.success = '';
-        }, 3000)
+        this.clearAlert();
       } else {
-        this.success = 'Esta tarea no existe';
+        this.message = 'Esta tarea no existe';
         this.getTasks();
 
-        setTimeout(() => {
-          this.success = '';
-        }, 3000)
+        this.clearAlert();
       }
+    }, (error) => {
+      this.message = 'Ha ocurrido un error';
+      this.clearAlert();
     });
   }
 
   receiveAction(message: string): void {
     if (message) {
-      this.success = message;
+      this.message = message;
       this.getTasks();
-
-      setTimeout(() => {
-        this.success = '';
-      }, 3000);
+      this.clearAlert();
     }
+  }
+
+  search(): void{
+    this.pageActual = 1;
+  }
+
+  clearAlert(): void{
+    setTimeout(() => {
+      this.message = '';
+    }, 3000);
   }
 
   ngOnDestroy() {
